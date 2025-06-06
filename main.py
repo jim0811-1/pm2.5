@@ -26,10 +26,11 @@ def get_aqi_level(pm25):
             return label, color
     return "超出範圍", "gray"
 
-st.title("台灣 PM2.5 空氣品質地圖")
+# Streamlit 介面
+st.title("台灣 PM2.5 地圖視覺化")
 
-location = st.selectbox("選擇地區", list(location_coords.keys()))
-pm25 = st.number_input("PM2.5 數值", value=25.0)
+location = st.selectbox("選擇地區：", list(location_coords.keys()))
+pm25 = st.number_input("輸入 PM2.5 數值（μg/m³）：", 0.0, 100.0, 25.0)
 
 if st.button("顯示地圖"):
     aqi_level, color = get_aqi_level(pm25)
@@ -45,5 +46,5 @@ if st.button("顯示地圖"):
         popup=f"{location} PM2.5: {pm25} μg/m³\n等級：{aqi_level}"
     ).add_to(m)
 
-    st.success(f"{location} 目前 PM2.5 為 {pm25} μg/m³，空氣品質：{aqi_level}")
-    st_folium(m, width=700, height=500)
+    st.write(f"目前地區：{location}，PM2.5 為 {pm25} μg/m³，空氣品質等級：**{aqi_level}**")
+    st_folium(m, width=700)
